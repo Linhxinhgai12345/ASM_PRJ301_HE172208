@@ -60,6 +60,10 @@
         <servlet-name>HomeLecturerController</servlet-name>
         <servlet-class>controller.lecturer.HomeLecturerController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceTakingController</servlet-name>
+        <servlet-class>controller.lecturer.AttendanceTakingController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RectController</servlet-name>
         <url-pattern>/rect</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>HomeLecturerController</servlet-name>
         <url-pattern>/homelecturer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceTakingController</servlet-name>
+        <url-pattern>/lecturer/att</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

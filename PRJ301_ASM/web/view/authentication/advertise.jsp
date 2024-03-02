@@ -1,7 +1,7 @@
 <%-- 
     Document   : advertise
     Created on : Feb 21, 2024, 5:19:06 PM
-    Author     : sonnt
+    Author     : DELL
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

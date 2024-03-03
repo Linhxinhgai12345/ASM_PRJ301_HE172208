@@ -29,7 +29,7 @@ public class TimeTableController extends BaseRequiredAuthenticationController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-
+        
     }
 
     @Override
@@ -39,39 +39,45 @@ public class TimeTableController extends BaseRequiredAuthenticationController {
         String raw_to = req.getParameter("to");
         java.sql.Date from = null;
         java.sql.Date to = null;
-
+        
         Date today = new Date();
-        if (raw_from == null) {
+        if(raw_from ==null)
+        {
             from = DateTimeHelper.convertUtilDateToSqlDate(DateTimeHelper.getWeekStart(today));
-        } else {
+        }
+        else
+        {
             from = java.sql.Date.valueOf(raw_from);
         }
-
-        if (raw_to == null) {
-            to = DateTimeHelper.convertUtilDateToSqlDate(
-                    DateTimeHelper.addDaysToDate(DateTimeHelper.getWeekStart(today), 6));
-        } else {
+        
+        if(raw_to ==null)
+        {
+            to =DateTimeHelper.convertUtilDateToSqlDate(
+                    DateTimeHelper.addDaysToDate(DateTimeHelper.getWeekStart(today),6));
+        }
+        else
+        {
             to = java.sql.Date.valueOf(raw_to);
         }
-
+        
         ArrayList<java.sql.Date> dates = DateTimeHelper.getListBetween(
-                DateTimeHelper.convertSqlDateToUtilDate(from),
+                DateTimeHelper.convertSqlDateToUtilDate(from), 
                 DateTimeHelper.convertSqlDateToUtilDate(to));
-
+        
         TimeSlotDBContext slotDB = new TimeSlotDBContext();
         ArrayList<TimeSlot> slots = slotDB.list();
-
+        
         LessionDBContext lessDB = new LessionDBContext();
         ArrayList<Lession> lessions = lessDB.getBy(lid, from, to);
-
+        
         req.setAttribute("slots", slots);
         req.setAttribute("dates", dates);
         req.setAttribute("from", from);
         req.setAttribute("to", to);
         req.setAttribute("lessions", lessions);
-
-        req.getRequestDispatcher("../lecturer/timetable.jsp").forward(req, resp);
-
+        
+        req.getRequestDispatcher("../view/lecturer/timetable.jsp").forward(req, resp);
+        
     }
 
 }

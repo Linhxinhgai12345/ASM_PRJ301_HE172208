@@ -5,6 +5,7 @@
 
 package controller.lecturer;
 
+import controller.authentication.BaseRequiredAuthenticationController;
 import dal.LessionDBContext;
 import entity.Account;
 import entity.Attendence;
@@ -22,37 +23,11 @@ import java.util.ArrayList;
  *
  * @author DEll
  */
-public class AttendanceTakingController extends HttpServlet {
+public class AttendanceTakingController extends BaseRequiredAuthenticationController {
    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param req
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-        int leid = Integer.parseInt(req.getParameter("id"));
-        LessionDBContext db = new LessionDBContext();
-        ArrayList<Attendence> atts = db.getAttendencesByLession(leid);
-        req.setAttribute("atts", atts);
-        req.getRequestDispatcher("../view/lecturer/att.jsp").forward(req, resp);
-    
-    }
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
+   @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
         int leid = Integer.parseInt(req.getParameter("id"));
         LessionDBContext db = new LessionDBContext();
         ArrayList<Student> students = db.getStudentsByLession(leid);
@@ -69,16 +44,16 @@ public class AttendanceTakingController extends HttpServlet {
         }
         db.takeAttendances(leid, atts);
         resp.sendRedirect("att?id="+leid);
-    
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+        int leid = Integer.parseInt(req.getParameter("id"));
+        LessionDBContext db = new LessionDBContext();
+        ArrayList<Attendence> atts = db.getAttendencesByLession(leid);
+        req.setAttribute("atts", atts);
+        req.getRequestDispatcher("../view/lecturer/att.jsp").forward(req, resp);
+    
+    }
 
 }

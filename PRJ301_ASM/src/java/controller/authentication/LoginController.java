@@ -64,9 +64,8 @@ public class LoginController extends HttpServlet {
             response.addCookie(c_pass);
             response.addCookie(c_user);
             
-           // response.sendRedirect("http://www.dantri.com");
 //            response.getWriter().println("Hello " + account.getDisplayname() + ", login sucessful!");
-            response.sendRedirect("homelecturer");
+           response.sendRedirect("homelecturer");
         } else {
             response.getWriter().println("login failed");
         }

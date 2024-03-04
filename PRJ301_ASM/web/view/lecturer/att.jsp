@@ -197,6 +197,7 @@ body{
                     <td>${a.student.id}</td>
                     <td>${a.student.name}</td>
                     <td>
+                        <input type="hidden" name="aid${a.student.id}" value="${a.getId()}"/>
                         <input type="radio" 
                                ${!a.present?"checked=\"checked\"":""}
                                name="present${a.student.id}" value="no"/> No
@@ -207,7 +208,7 @@ body{
                     <td>
                         <input type="text" name="description${a.student.id}" value="${a.description}"/>
                     </td>
-                    <td>${a.time}</td>
+                    <td>${a.time.toString().substring(0)}</td>
                 </tr>    
                 </c:forEach>
             </table>

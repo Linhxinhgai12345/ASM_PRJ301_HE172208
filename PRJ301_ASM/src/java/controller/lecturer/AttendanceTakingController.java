@@ -31,18 +31,28 @@ public class AttendanceTakingController extends BaseRequiredAuthenticationContro
         int leid = Integer.parseInt(req.getParameter("id"));
         LessionDBContext db = new LessionDBContext();
         ArrayList<Student> students = db.getStudentsByLession(leid);
-        ArrayList<Attendence> atts = new ArrayList<>();
+        ArrayList<Attendence> atts = new ArrayList<>();//những att đã sửa hoặc update
         Lession lession = new Lession();
         lession.setId(leid);
         for (Student student : students) {
             Attendence a = new Attendence();
+            a.setId(Integer.parseInt(req.getParameter("aid" + student.getId())));
             a.setLession(lession);
             a.setStudent(student);
             a.setDescription(req.getParameter("description"+student.getId()));
             a.setPresent(req.getParameter("present"+student.getId()).equals("yes"));
             atts.add(a);
         }
-        db.takeAttendances(leid, atts);
+        
+        
+        ArrayList<Attendence> att1st = db.getAttendencesByLession(leid);//nhưng att đang có trong database
+        ArrayList<Attendence> att2nd = new ArrayList<>();
+        for(int i = 0; i < atts.size(); i++){
+            if(!att1st.get(i).getDescription().equals(atts.get(i).getDescription()) || !att1st.get(i).isPresent() == atts.get(i).isPresent()){
+                att2nd.add(atts.get(i));//so sánh khác nhau thì nhét vào att2
+            }
+        }
+        db.takeAttendances2(leid, att2nd);//att2 update thay thế cái bị thay đổi, còn lại giữ nguyên
         resp.sendRedirect("att?id="+leid);
     }
 

@@ -106,7 +106,7 @@ body{
                 <img src="img/Logo.jpg" alt="">
             </div>
             <div class="nav-content">
-                <a href="view/lecturer/timetable.jsp">Timetable</a>
+                <a href="lecturer/timetable?id=1">Timetable</a>
                 <a href="">Attendance</a>
                 <a href="">Report Mark</a>
             </div>

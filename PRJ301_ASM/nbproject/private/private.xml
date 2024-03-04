@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/web/view/authentication/login.jsp</file>
-            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/web/view/lecturer/timetable.jsp</file>
+            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/dal/AccountDBContext.java</file>
+            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/controller/authentication/BaseRequiredAuthenticationController.java</file>
+            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/controller/lecturer/AttendanceTakingController.java</file>
+            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/dal/LessionDBContext.java</file>
+            <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/controller/authentication/LoginController.java</file>
             <file>file:/C:/Users/DEll/Documents/GitHub/ASM_PRJ301_HE172208/PRJ301_ASM/src/java/controller/lecturer/TimeTableController.java</file>
         </group>
     </open-files>

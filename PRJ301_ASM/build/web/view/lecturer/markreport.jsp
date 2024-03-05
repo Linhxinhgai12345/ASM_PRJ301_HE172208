@@ -45,12 +45,7 @@
     <h2>Mark Report</h2>
 
     <table>
-        <thead>
-            <tr>
-                <th onclick="showDetails('Fall2021')">TERM</th>
-                <th>COURSE</th>
-            </tr>
-        </thead>
+        
         <tbody>
             <tr>
                 <td onclick="showDetails('Fall2021')">Fall2021</td>
@@ -78,27 +73,30 @@
             var termNameElement = document.getElementById('termName');
             var courseDetailsElement = document.getElementById('courseDetails');
 
-            // Đặt tên học kỳ
             termNameElement.textContent = term;
 
-            // Xóa nội dung cũ
+            
             courseDetailsElement.innerHTML = '';
-
-            // Thêm thông tin chi tiết môn học tương ứng
             switch (term) {
                 case 'Fall2021':
-                    // Thêm các môn học tương ứng
+                    addCourseDetail('DBI202 - SE1817');
+                    addCourseDetail('PRJ301 - SE1815');
+                    addCourseDetail('PRJ301 - AI1234');
                     break;
                 case 'Spring2022':
-                    // Thêm các môn học tương ứng
+                    addCourseDetail('DBI202 - SE1817');
+                    addCourseDetail('PRJ301 - SE1815');
+                    addCourseDetail('PRJ301 - AI1234');
                     break;
                 case 'Summer2022':
-                    // Thêm các môn học tương ứng
+                    addCourseDetail('DBI202 - SE1817');
+                    addCourseDetail('PRJ301 - SE1815');
+                    addCourseDetail('PRJ301 - AI1234');
                     break;
-                // Thêm các học kỳ khác tương tự
+                
 
                 case 'Spring2024':
-                    // Thêm thông tin môn học cho Spring2024
+                    
                     addCourseDetail('DBI202 - SE1817');
                     addCourseDetail('PRJ301 - SE1815');
                     addCourseDetail('PRJ301 - AI1234');
@@ -108,7 +106,7 @@
                     break;
             }
 
-            // Hiển thị chi tiết
+            // show detail for term
             var detailsElement = document.getElementById('details');
             detailsElement.classList.remove('hidden');
         }

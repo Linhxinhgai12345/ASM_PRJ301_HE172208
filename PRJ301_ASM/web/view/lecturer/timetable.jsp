@@ -1,7 +1,7 @@
 <%-- 
     Document   : timetable
     Created on : Feb 28, 2024, 5:01:32 PM
-    Author     : sonnt
+    Author     : dell
 --%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

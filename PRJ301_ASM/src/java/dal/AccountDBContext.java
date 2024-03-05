@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author sonnt
+ * 
  */
 public class AccountDBContext extends DBContext<Account> {
 

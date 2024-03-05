@@ -23,7 +23,7 @@ import util.DateTimeHelper;
 
 /**
  *
- * @author sonnt
+ * 
  */
 public class TimeTableController extends BaseRequiredAuthenticationController {
 

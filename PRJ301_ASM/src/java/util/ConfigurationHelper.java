@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 
 /**
  *
- * @author sonnt
+ *
  */
 public class ConfigurationHelper {
     public static int getCanvasW(HttpServlet current)

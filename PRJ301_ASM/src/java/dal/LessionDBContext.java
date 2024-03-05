@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author sonnt
+ * 
  */
 public class LessionDBContext extends DBContext<Lession> {
 

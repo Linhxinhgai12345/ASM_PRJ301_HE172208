@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author sonnt
+ * 
  */
 public class LoginController extends HttpServlet {
 

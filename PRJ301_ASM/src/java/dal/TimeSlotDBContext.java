@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author sonnt
+ * 
  */
 public class TimeSlotDBContext extends DBContext<TimeSlot> {
 

@@ -104,7 +104,25 @@ public class LessionDBContext extends DBContext<Lession> {
         }
 
     }
+    
+    public boolean isAttended(int leid) {
+        boolean isAttended = false;
+        try {
+            String sql = "SELECT * FROM Lession where leid = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, leid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                isAttended = rs.getBoolean("isAttended");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isAttended;
 
+    }
+    
+    
     public ArrayList<Student> getStudentsByLession(int leid) {
         ArrayList<Student> students = new ArrayList<>();
         try {
@@ -168,6 +186,7 @@ public class LessionDBContext extends DBContext<Lession> {
         }
         return atts;
     }
+    
 
     public ArrayList<Lession> getBy(int lid, Date from, Date to) {
         ArrayList<Lession> lessions = new ArrayList<>();

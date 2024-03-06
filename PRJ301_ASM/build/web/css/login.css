@@ -69,6 +69,20 @@ body{
     align-items: end;
 }
 
+.body-content .remember-account{
+    display: flex;
+    justify-content: end;
+    
+}
+
+.body-content .remember-account input{
+    width: 10%;
+    margin: 0
+    
+}
+
+
+
 .body-content form a{
     text-decoration: none;
     color: rgba(21, 20, 20, 0.58);

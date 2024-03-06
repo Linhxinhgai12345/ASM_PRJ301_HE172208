@@ -19,6 +19,7 @@
             <form action="login" method="post">
                 <input type="text" name="username" placeholder="Fpt email" required=""> <br />
                 <input type="password" name="password" placeholder="Password" required=""> <br />
+                <div class="remember-account"><input type="checkbox" name="remember" value="remember"><label for="remember">Remember me</label></div>
                 <div> 
                     <select name="Campus" id="">
                         <option value="1">HaNoi</option>

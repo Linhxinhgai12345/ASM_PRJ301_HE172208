@@ -46,30 +46,44 @@ public class LoginController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
+        
         AccountDBContext db = new AccountDBContext();
         Account account = db.getByUsernamePassword(username, password);
-
-        if (account != null) {
+        
+        if(account != null)
+        {
+            //login success
+            
+            String remember = request.getParameter("remember");
+            if(remember!=null)
+            {
+                Cookie c_user = new Cookie("username", username);
+                Cookie c_pass = new Cookie("password", password);
+                
+                c_user.setMaxAge(3600*24*7);
+                c_pass.setMaxAge(3600*24*7);
+                
+                response.addCookie(c_pass);
+                response.addCookie(c_user);
+            }
+            
+            
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
+//            response.getWriter().println("login successful!");
             
-            Cookie c_user = new Cookie("username", username);
-            Cookie c_pass = new Cookie("password", password);
-            c_user.setMaxAge(3600*24*7);
-            c_pass.setMaxAge(3600*24*7);
-            response.addCookie(c_pass);
-            response.addCookie(c_user);
-            
-//            response.getWriter().println("Hello " + account.getDisplayname() + ", login sucessful!");
-           response.sendRedirect("homelecturer");
-        } else {
-            response.getWriter().println("login failed");
+            response.sendRedirect("homelecturer");
         }
-
+        else
+        {
+            //login failed!
+            response.getWriter().println("login failed!");
+        }
+        
+        
     }
 
     /**

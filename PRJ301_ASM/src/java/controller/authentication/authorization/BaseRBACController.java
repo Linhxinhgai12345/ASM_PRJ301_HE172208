@@ -14,10 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- *
- * @author sonnt
- */
 public abstract class BaseRBACController extends BaseRequiredAuthenticationController {
 
     private ArrayList<Role> getRoles(HttpServletRequest req, Account account) {

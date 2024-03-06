@@ -3,13 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+
 import entity.Account;
 import java.util.ArrayList;
+
 /**
  *
  * @author DEll
  */
 public class Role {
+
     private int id;
     private String name;
     private ArrayList<Account> accounts = new ArrayList<>();
@@ -37,5 +40,5 @@ public class Role {
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
-    
+
 }

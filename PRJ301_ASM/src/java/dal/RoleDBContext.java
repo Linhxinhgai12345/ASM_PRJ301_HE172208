@@ -4,13 +4,13 @@
  */
 package dal;
 
-
 import dal.DBContext;
 import entity.Role;
 import java.util.ArrayList;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author DEll
@@ -28,17 +28,16 @@ public class RoleDBContext extends DBContext<Role> {
                     + "WHERE \n"
                     + "a.username = ? AND f.url = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,username);
+            stm.setString(1, username);
             stm.setString(2, url);
             ResultSet rs = stm.executeQuery();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 Role r = new Role();
                 r.setId(rs.getInt("roleid"));
                 r.setName(rs.getString("rolename"));
                 roles.add(r);
             }
-                    
+
         } catch (SQLException ex) {
             Logger.getLogger(RoleDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,4 +70,3 @@ public class RoleDBContext extends DBContext<Role> {
     }
 
 }
-

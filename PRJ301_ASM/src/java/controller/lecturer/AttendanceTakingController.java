@@ -60,15 +60,5 @@ public class AttendanceTakingController extends BaseRBACController {
         resp.sendRedirect("att?id=" + leid);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp,
-            Account account, ArrayList<Role> roles) throws ServletException, IOException {
-        int leid = Integer.parseInt(req.getParameter("id"));
-        LessionDBContext db = new LessionDBContext();
-        ArrayList<Attendence> atts = db.getAttendencesByLession(leid);
-        req.setAttribute("atts", atts);
-        req.getRequestDispatcher("../view/lecturer/att.jsp").forward(req, resp);
-
-    }
-
+   
 }

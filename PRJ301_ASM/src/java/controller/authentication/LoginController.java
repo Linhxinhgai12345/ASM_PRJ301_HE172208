@@ -5,7 +5,10 @@
 package controller.authentication;
 
 import dal.AccountDBContext;
+import dal.StudentDBContext;
 import entity.Account;
+import entity.Lecturer;
+import entity.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * 
+ *
  */
 public class LoginController extends HttpServlet {
 
@@ -46,44 +49,49 @@ public class LoginController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
+
         AccountDBContext db = new AccountDBContext();
         Account account = db.getByUsernamePassword(username, password);
-        
-        if(account != null)
-        {
+
+        if (account != null) {
             //login success
-            
+            HttpSession session = request.getSession();
+            StudentDBContext sdb = new StudentDBContext();
+            Student student = sdb.getStudentByUsername(username);// lấy thông tin sinh viên qua username
+            Lecturer lecturer = sdb.getLecturerByUsername(username);
+            if (student != null) {
+                session.setAttribute("student", student);
+            }else{
+                session.setAttribute("lecturer", lecturer);
+            }
             String remember = request.getParameter("remember");
-            if(remember!=null)
-            {
+            if (remember != null) {
                 Cookie c_user = new Cookie("username", username);
                 Cookie c_pass = new Cookie("password", password);
-                
-                c_user.setMaxAge(3600*24*7);
-                c_pass.setMaxAge(3600*24*7);
-                
+
+                c_user.setMaxAge(3600 * 24 * 7);
+                c_pass.setMaxAge(3600 * 24 * 7);
+
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
             }
             
-            
-            HttpSession session = request.getSession();
+            PrintWriter out = response.getWriter();
+
             session.setAttribute("account", account);
-//            response.getWriter().println("login successful!");
-            
+
             response.sendRedirect("homelecturer");
-        }
-        else
-        {
+        } else {
             //login failed!
-            response.getWriter().println("login failed!");
+            String mess= "Wrong username or password";
+            request.setAttribute("mess", mess);
+            request.getRequestDispatcher("view/authentication/login.jsp").forward(request, response);
+            
         }
-        
-        
+
     }
 
     /**

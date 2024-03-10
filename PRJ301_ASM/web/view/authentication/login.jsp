@@ -17,6 +17,7 @@
             <h2 class="login-title">Welcom to FPT University</h2>
             <img src="img/Logo.jpg" alt="">
             <form action="login" method="post">
+                <h3 style="color: red">${mess}</h3>
                 <input type="text" name="username" placeholder="Fpt email" required=""> <br />
                 <input type="password" name="password" placeholder="Password" required=""> <br />
                 <div class="remember-account"><input type="checkbox" name="remember" value="remember"><label for="remember">Remember me</label></div>

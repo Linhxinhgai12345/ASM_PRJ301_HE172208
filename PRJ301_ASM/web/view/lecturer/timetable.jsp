@@ -314,9 +314,66 @@
             .select-month-option-find form{
                 background-color: white;
             }
+
+            .header{
+                display: flex;
+                justify-content: space-between;
+                align-items: start;
+
+            }
+
+            .nav-logo {
+                background-color: rgba(0, 0, 0, 0.219);
+                text-align: center;
+                padding: 10px;
+                border-radius: 5px;
+
+            }
+
+            .sign-out-btn{
+                margin-right: 30px;
+                margin-top: 20px;
+            }
+            .sign-out-btn a{
+                padding: 7px;
+                font-size: 15px;
+                border-radius: 5px;
+                border: none;
+                background-color: rgba(0, 0, 0, 0.306);
+                color: black;
+            }
+            .nav-content a{
+                text-decoration: none;
+
+                margin-right: 15px;
+                background-color: rgb(241, 151, 5);
+                color: rgb(255, 255, 255);
+                padding: 5px 10px;
+                border-radius: 3px;
+
+            }
+            .nav-content{
+                display: flex;
+                justify-content: space-between;
+                margin-top: 12px;
+                padding: 0px 30px;
+
+            }
         </style>
     </head>
     <body>
+        <div class="header">
+            <div class="nav">
+                <div class="nav-content">
+                    <a href="../homelecturer">Home</a>
+                    <a href="">Attendance</a>
+                    <a href="">Report Mark</a>
+                </div>
+            </div>
+            <div class="sign-out-btn">
+                <a href="../logout">Sign out</a>
+            </div>
+        </div>
         <div class="logo">
             <img src="img/Logo.jpg" alt="">
         </div>
@@ -374,10 +431,14 @@ Little UK (LUK) thuộc tầng 5 tòa nhà Delta</pre>
                                                 <p><i class="fas fa-circle" style="color: red"></i>${slot.name}</p>
                                                 <p>7:30am - 9:00am</p>
                                                 <p>BE301</p>
-                                                <p>${les.group.name} - ${les.group.subject.name} (<a href="att?id=${les.id}">
+                                                <p>${les.group.name} - ${les.group.subject.name} 
+                                                    <%--<c:if test="${sessionScope.lecturer.name != null}">--%>
+                                                        (<a href="att?id=${les.id}&date=${d}&slot=${slot.name}&subject=${les.group.subject.name}&group=${les.group.name}&room=${les.room.name}">
                                                         <c:if test="${les.attended}">Edit</c:if>
                                                         <c:if test="${!les.attended}">Take</c:if>
-                                                        </a>)</p>
+                                                        </a>)
+                                                    <%--</c:if>--%>
+                                                </p>
                                                 </div>                                            
                                         </c:if>
                                     </c:forEach>

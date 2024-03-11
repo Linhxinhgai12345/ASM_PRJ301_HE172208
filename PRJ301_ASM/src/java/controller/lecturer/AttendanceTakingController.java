@@ -56,14 +56,29 @@ public class AttendanceTakingController extends BaseRBACController {
                 db.takeAttendances2(leid, att2nd);//att2 update thay thế cái bị thay đổi, còn lại giữ nguyên
             }
         }
-
-        resp.sendRedirect("att?id=" + leid);
+        String room = req.getParameter("room");
+        String date = req.getParameter("date");
+        String slot = req.getParameter("slot");
+        String subject = req.getParameter("subject");
+        String group = req.getParameter("group");
+        resp.sendRedirect("att?id=" + leid + "&date=" + date + "&slot=" + slot + "&subject=" + subject + "&group=" + group + "&room=" + room);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp,
             Account account, ArrayList<Role> roles) throws ServletException, IOException {
         int leid = Integer.parseInt(req.getParameter("id"));
+        String room = req.getParameter("room");
+        req.setAttribute("room", room);
+        String date = req.getParameter("date");
+        req.setAttribute("date", date);
+        String slot = req.getParameter("slot");
+        req.setAttribute("slot", slot);
+        String subject = req.getParameter("subject");
+        req.setAttribute("subject", subject);
+        String group = req.getParameter("group");
+        req.setAttribute("group", group);
+        
         LessionDBContext db = new LessionDBContext();
         ArrayList<Attendence> atts = db.getAttendencesByLession(leid);
         req.setAttribute("atts", atts);

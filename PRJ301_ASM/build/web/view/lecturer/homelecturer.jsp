@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="sign-out-btn">
-            <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i></a>
+            <a href="logout">Sign out</a>
         </div>
     </div>
     <div class="body">

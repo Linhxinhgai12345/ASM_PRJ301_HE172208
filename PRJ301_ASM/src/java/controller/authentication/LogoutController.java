@@ -53,7 +53,10 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getSession().removeAttribute("account");
+        request.getSession().removeAttribute("student");
+        request.getSession().removeAttribute("lecturer");
+        response.sendRedirect("login");
     } 
 
     /** 

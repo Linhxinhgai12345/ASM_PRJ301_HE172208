@@ -54,11 +54,6 @@ public class LoginController extends HttpServlet {
             StudentDBContext sdb = new StudentDBContext();
             Student student = sdb.getStudentByUsername(username);// lấy thông tin sinh viên qua username
             Lecturer lecturer = sdb.getLecturerByUsername(username);
-            if (student != null) {
-                session.setAttribute("student", student);
-            }else{
-                session.setAttribute("lecturer", lecturer);
-            }
             String remember = request.getParameter("remember");
             if (remember != null) {
                 Cookie c_user = new Cookie("username", username);
@@ -70,21 +65,23 @@ public class LoginController extends HttpServlet {
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
             }
-            
+
             PrintWriter out = response.getWriter();
 
             session.setAttribute("account", account);
-
+            session.setAttribute("lecturer", lecturer);
+            session.setAttribute("student", student);
             response.sendRedirect("homelecturer");
         } else {
             //login failed!
-            String mess= "Wrong username or password";
+            String mess = "Wrong username or password";
             request.setAttribute("mess", mess);
             request.getRequestDispatcher("view/authentication/login.jsp").forward(request, response);
-            
+
         }
 
     }
+
     @Override
     public String getServletInfo() {
         return "Short description";

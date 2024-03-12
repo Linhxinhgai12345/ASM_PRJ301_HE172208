@@ -341,6 +341,8 @@
                 border: none;
                 background-color: rgba(0, 0, 0, 0.306);
                 color: black;
+                text-decoration: none;
+
             }
             .nav-content a{
                 text-decoration: none;
@@ -366,8 +368,7 @@
             <div class="nav">
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
-                    <a href="">Attendance</a>
-                    <a href="">Report Mark</a>
+                    <a href="../lecturer/markreport">Report Mark</a>
                 </div>
             </div>
             <div class="sign-out-btn">
@@ -433,13 +434,13 @@ Little UK (LUK) thuộc tầng 5 tòa nhà Delta</pre>
                                                 <p>BE301</p>
                                                 <p>${les.group.name} - ${les.group.subject.name} 
                                                     <%--<c:if test="${sessionScope.lecturer.name != null}">--%>
-                                                        (<a href="att?id=${les.id}&date=${d}&slot=${slot.name}&subject=${les.group.subject.name}&group=${les.group.name}&room=${les.room.name}">
+                                                    (<a href="att?id=${les.id}&date=${d}&slot=${slot.name}&subject=${les.group.subject.name}&group=${les.group.name}&room=${les.room.name}">
                                                         <c:if test="${les.attended}">Edit</c:if>
                                                         <c:if test="${!les.attended}">Take</c:if>
                                                         </a>)
                                                     <%--</c:if>--%>
                                                 </p>
-                                                </div>                                            
+                                            </div>                                            
                                         </c:if>
                                     </c:forEach>
                                 </c:forEach>

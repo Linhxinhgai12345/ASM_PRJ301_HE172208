@@ -14,6 +14,7 @@ public class Student {
     private int id;
     private String name;
     private ArrayList<StudentGroup> groups = new ArrayList<>();
+    private ArrayList<ScoreType> scores = new ArrayList<>();
 
     public ArrayList<StudentGroup> getGroups() {
         return groups;

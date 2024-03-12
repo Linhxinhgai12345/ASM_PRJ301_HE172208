@@ -30,7 +30,7 @@
 
             .header{
                 text-align: left;
-
+                margin-top: 20px;   
                 position: fixed;
                 display: flex;
             }
@@ -78,7 +78,7 @@
                 margin-top: 100px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 border-radius: 5px;
-                padding: 30px;
+                padding: 10px;
                 overflow-y: scroll;
             }
 
@@ -145,10 +145,58 @@
                 cursor: pointer;
                 background-color: rgb(39, 39, 227);
             }
+            
+            
+            .nav-header{
+                display: flex;
+                justify-content: right;
+                align-items: start;
+
+            }
+            .sign-out-btn{
+                margin-right: 30px;
+                margin-top: 20px;
+            }
+            .sign-out-btn a{
+                padding: 7px;
+                font-size: 15px;
+                border-radius: 5px;
+                border: none;
+                background-color: rgba(0, 0, 0, 0.306);
+                color: black;
+                text-decoration: none;
+            }
+            .nav-content a{
+                text-decoration: none;
+
+                margin-right: 15px;
+                background-color: rgb(241, 151, 5);
+                color: rgb(255, 255, 255);
+                padding: 5px 10px;
+                border-radius: 3px;
+
+            }
+            .nav-content{
+                display: flex;
+                justify-content: space-between;
+                margin-top: 12px;
+                padding: 0px 30px;
+
+            }
         </style>
     </head>
     <body>
-
+        <div class="nav-header">
+            <div class="nav">
+                <div class="nav-content">
+                    <a href="../homelecturer">Home</a>
+                    <a href="../lecturer/markreport">Report Mark</a>
+                </div>
+            </div>
+            <div class="sign-out-btn">
+                <a href="../logout">Sign out</a>
+            </div>
+        </div>
         <div class="header">
             <img src="img/Logo.jpg" alt="">
             <div>View Attendance for ${sessionScope.account.username}</div>

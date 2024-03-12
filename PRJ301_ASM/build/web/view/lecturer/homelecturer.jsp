@@ -24,9 +24,8 @@
                 <img src="img/Logo.jpg" alt="">
             </div>
             <div class="nav-content">
-                <a href="lecturer/timetable?id=1">Timetable</a>
-                <a href="">Attendance</a>
-                <a href="">Report Mark</a>
+                <a href="lecturer/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
+                <a href="lecturer/markreport">Report Mark</a>
             </div>
         </div>
         <div class="sign-out-btn">

@@ -68,6 +68,10 @@
         <servlet-name>MarkReportController</servlet-name>
         <servlet-class>controller.lecturer.MarkReportController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PresentReportController</servlet-name>
+        <servlet-class>controller.lecturer.PresentReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RectController</servlet-name>
         <url-pattern>/rect</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>MarkReportController</servlet-name>
         <url-pattern>/lecturer/markreport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PresentReportController</servlet-name>
+        <url-pattern>/lecturer/presentreport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

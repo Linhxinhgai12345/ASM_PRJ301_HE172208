@@ -53,15 +53,24 @@ public class AttendanceTakingController extends BaseRBACController {
                 if (!att1st.get(i).getDescription().equals(atts.get(i).getDescription()) || !att1st.get(i).isPresent() == atts.get(i).isPresent()) {
                     att2nd.add(atts.get(i));//so sánh khác nhau thì nhét vào att2
                 }
-                db.takeAttendances2(leid, att2nd);//att2 update thay thế cái bị thay đổi, còn lại giữ nguyên
+                
+            }
+            db.takeAttendances2(leid, att2nd);//att2 update thay thế cái bị thay đổi, còn lại giữ nguyên
+            if(att2nd.size() > 0){
+                req.setAttribute("messageAlert", "Save successfully!");
             }
         }
         String room = req.getParameter("room");
+        req.setAttribute("room", room);
         String date = req.getParameter("date");
+        req.setAttribute("date", date);
         String slot = req.getParameter("slot");
+        req.setAttribute("slot", slot);
         String subject = req.getParameter("subject");
+        req.setAttribute("subject", subject);
         String group = req.getParameter("group");
-        resp.sendRedirect("att?id=" + leid + "&date=" + date + "&slot=" + slot + "&subject=" + subject + "&group=" + group + "&room=" + room);
+        req.setAttribute("group", group);
+        doGet(req, resp, account, roles);
     }
 
     @Override

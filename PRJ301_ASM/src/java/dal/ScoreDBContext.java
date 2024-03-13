@@ -5,8 +5,10 @@
 package dal;
 
 import dal.DBContext;
+import entity.Attendence;
 import entity.Lecturer;
 import entity.Role;
+import entity.Score;
 import entity.ScoreType;
 import entity.Student;
 import entity.StudentGroup;
@@ -54,45 +56,74 @@ public class ScoreDBContext extends DBContext<Student> {
         return scores;
     }
 
-    public ArrayList<Student> getAllStudentByGroupId(int lname) {
-        ArrayList<Student> students = new ArrayList<>();
+    public ArrayList<Score> getAllScoreByGroupIdAndSubjectId(int sgid, int subid) {
+        ArrayList<Score> scores = new ArrayList<>();
         try {
-            String sql = "select s.sid, s.sname from Student s\n"
-                    + "join Enrollment e on s.sid = e.sid\n"
-                    + "join StudentGroup sg on sg.gid = e.gid\n"
-                    + "where sg.gid = ?";
+            String sql = "  select sc.scid, sc.score,sc.sid, sct.sctid from Score sc\n"
+                    + "  join ScoreType sct on sc.sctid = sct.sctid\n"
+                    + "  join Subject su on su.subid = sct.subid\n"
+                    + "  join StudentGroup sg on sg.subid = su.subid\n"
+                    + "  where sct.subid = ? and sg.gid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, lname);
+            stm.setInt(1, subid);
+            stm.setInt(2, sgid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Student student = new Student();
                 student.setId(rs.getInt("sid"));
-                student.setName(rs.getString("sname"));
-                students.add(student);
+                ScoreType scoreType = new ScoreType();
+                scoreType.setSctid(rs.getInt("sctid"));
+                Score score = new Score();
+                score.setStudent(student);
+                score.setScoreType(scoreType);
+                score.setScid(rs.getInt("scid"));
+                score.setScore(rs.getInt("score"));
+                scores.add(score);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return students;
+        return scores;
     }
 
-    public Lecturer getLecturerByUsername(String username) {
-        Lecturer lecturer = new Lecturer();
+    public void UpdateScoreByGroupIdAndSubjetId(List<Score> listScore, int groupchoosen, int subjectchoosen) {
         try {
-            String sql = "select * from Lecturer where lname = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                lecturer.setId(rs.getInt(1));
-                lecturer.setName(rs.getString(2));
-            }
+            connection.setAutoCommit(false);
+            String sql_remove_score = "  Delete from Score where scid in (select sc.scid from Score sc\n"
+                    + "  join ScoreType sct on sc.sctid = sct.sctid\n"
+                    + "  join Subject su on su.subid = sct.subid\n"
+                    + "  join StudentGroup sg on sg.subid = su.subid\n"
+                    + "  where sct.subid = ? and sg.gid = ?)";
+            PreparedStatement stm_remove_score = connection.prepareStatement(sql_remove_score);
+            stm_remove_score.setInt(1, subjectchoosen);
+            stm_remove_score.setInt(2, groupchoosen);
+            stm_remove_score.executeUpdate();
 
+            for (Score score : listScore) {
+                String sql_insert_att = "Insert into Score(score, sid, sctid) values(?, ?, ?)";
+                PreparedStatement stm_insert_att = connection.prepareStatement(sql_insert_att);
+                stm_insert_att.setInt(1, score.getScore());
+                stm_insert_att.setInt(2, score.getStudent().getId());
+                stm_insert_att.setInt(3, score.getScoreType().getSctid());
+                stm_insert_att.executeUpdate();
+            }
+            connection.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(RoleDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        return lecturer;
+
     }
 
     @Override

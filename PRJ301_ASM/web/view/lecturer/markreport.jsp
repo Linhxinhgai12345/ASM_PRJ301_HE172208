@@ -71,9 +71,9 @@
                 font-weight: 500;
                 background-color: rgb(251, 210, 157);
                 text-align: center;
-                
+
             }
-            
+
             .information td a{
                 color:black;
                 text-decoration: none;
@@ -220,6 +220,7 @@
                     <td>Class-Subject</td>
 
                 </tr>
+                <!--list group-->
                 <c:forEach items="${studentgroup}" var="group">
                     <tr>
                         <td><a href="../lecturer/markreport?groupchoosen=${group.id}&subject=${group.subject.id}">${group.getName()}-${group.subject.name}</a></td>
@@ -233,32 +234,51 @@
         </div>
 
         <div class="body">
-            <table >
-                <tr>
-                    <td>Id</td>
-                    <td>Name</td>
-                    <c:forEach items="${listScoreType}" var="score">
-                        <td >${score.sctname}<br/>(${score.sctpercent})</td>
-                    </c:forEach>
-                    
-                </tr>
-                <c:forEach items="${listStudent}" var="student">
+            <form action="../lecturer/markreport" method="post">
+                <table >
                     <tr>
-                    <td>${student.id}</td>
-                    <td>${student.name}</td>
-                    <c:forEach items="${listScoreType}" var="score">
-                        <td></td>
+                        <td>Id</td>
+                        <td>Name</td>
+                        <!--list score type--> 
+                        <c:forEach items="${listScoreType}" var="score">
+                            <td >${score.sctname}<br/>(${score.sctpercent})</td>
+                            </c:forEach>
+
+                    </tr>
+                    <!--lisst student-->
+                    <c:forEach items="${listStudent}" var="student">
+                        <tr>
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <c:forEach items="${listScoreType}" var="type">
+                                <c:forEach items="${listScore}" var="score">
+                                    <c:if test="${(score.scoreType.sctid == type.sctid) and (score.student.id == student.id)}">
+                                        <c:set var="scoreofstudent" value="${score.score}"/>
+                                    </c:if>
+                                </c:forEach>
+                                <td>
+                                    <input type="number" max="10" min="0" step="1" name="score${student.id}and${type.sctid}" value="${scoreofstudent == null? 0 : scoreofstudent}">
+                                    <input type="hidden" value="${student.id}" name="student${student.id}"/>
+                                    <input type="hidden" value="${type.sctid}" name="scoreType${type.sctid}"/>
+                                </td>
+
+
+                            </c:forEach>
+                        </tr>   
                     </c:forEach>
-                </tr>   
-                </c:forEach>
-               
 
-            </table>
-            <div class="body-footer">
 
-                <button>Save</button>
-            </div>
+                </table>
+                <input type="hidden" name="groupchoosen" value="${groupchoosen}"/>
+                <input type="hidden" name="subjectchoosen" value="${subjectchoosen}"/>
+                <c:if test="${listStudent != null}">
+                    <div class="body-footer">
 
+                        <button>Save</button>
+                    </div>
+                </c:if>
+
+            </form>
         </div>
     </body>
 </html>

@@ -195,6 +195,10 @@
                 padding: 0px 30px;
 
             }
+            
+            .body-footer h3{
+                color:black;
+            }
         </style>
     </head>
     <body>
@@ -223,7 +227,7 @@
                 <!--list group-->
                 <c:forEach items="${studentgroup}" var="group">
                     <tr>
-                        <td><a href="../lecturer/markreport?groupchoosen=${group.id}&subject=${group.subject.id}">${group.getName()}-${group.subject.name}</a></td>
+                        <td><a href="../lecturer/markreport?groupchoosen=${group.id}&subjectchoosen=${group.subject.id}">${group.getName()}-${group.subject.name}</a></td>
 
                     </tr>
                 </c:forEach>
@@ -257,7 +261,7 @@
                                     </c:if>
                                 </c:forEach>
                                 <td>
-                                    <input type="number" max="10" min="0" step="1" name="score${student.id}and${type.sctid}" value="${scoreofstudent == null? 0 : scoreofstudent}">
+                                    <input type="number" max="10" min="0" step="0.1" name="score${student.id}and${type.sctid}" value="${scoreofstudent == null?  0: scoreofstudent}">
                                     <input type="hidden" value="${student.id}" name="student${student.id}"/>
                                     <input type="hidden" value="${type.sctid}" name="scoreType${type.sctid}"/>
                                 </td>
@@ -273,7 +277,7 @@
                 <input type="hidden" name="subjectchoosen" value="${subjectchoosen}"/>
                 <c:if test="${listStudent != null}">
                     <div class="body-footer">
-
+                        <h3>${messageAlert}</h3>
                         <button>Save</button>
                     </div>
                 </c:if>

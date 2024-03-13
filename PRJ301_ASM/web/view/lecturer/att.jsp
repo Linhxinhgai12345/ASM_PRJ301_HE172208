@@ -183,6 +183,9 @@
                 padding: 0px 30px;
 
             }
+            .body-footer h3{
+                color: black;
+            }
         </style>
     </head>
     <body>
@@ -191,6 +194,7 @@
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
                     <a href="../lecturer/markreport">Report Mark</a>
+                    <a href="../lecturer/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
                 </div>
             </div>
             <div class="sign-out-btn">
@@ -266,7 +270,7 @@
                     <input type="hidden" name="subject" value="${subject}"/>
                     <input type="hidden" name="slot" value="${slot}"/>
                     <input type="hidden" name="date" value="${date}"/>
-
+                    <h3>${messageAlert}</h3>
                     <button>Save</button>
                 </div>
             </form>

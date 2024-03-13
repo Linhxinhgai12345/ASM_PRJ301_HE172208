@@ -10,14 +10,14 @@ package entity;
  */
 public class Score {
     private int scid;
-    private int score;
+    private double score;
     private Student student;
     private ScoreType scoreType;
 
     public Score() {
     }
 
-    public Score(int scid, int score, Student student, ScoreType scoreType) {
+    public Score(int scid, double score, Student student, ScoreType scoreType) {
         this.scid = scid;
         this.score = score;
         this.student = student;
@@ -32,11 +32,11 @@ public class Score {
         this.scid = scid;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
@@ -60,6 +60,8 @@ public class Score {
     public String toString() {
         return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
+
+    
 
     
 

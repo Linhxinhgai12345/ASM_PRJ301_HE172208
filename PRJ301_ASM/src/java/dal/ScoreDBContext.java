@@ -77,7 +77,7 @@ public class ScoreDBContext extends DBContext<Student> {
                 score.setStudent(student);
                 score.setScoreType(scoreType);
                 score.setScid(rs.getInt("scid"));
-                score.setScore(rs.getInt("score"));
+                score.setScore(rs.getDouble("score"));
                 scores.add(score);
             }
 
@@ -89,7 +89,6 @@ public class ScoreDBContext extends DBContext<Student> {
 
     public void UpdateScoreByGroupIdAndSubjetId(List<Score> listScore, int groupchoosen, int subjectchoosen) {
         try {
-            connection.setAutoCommit(false);
             String sql_remove_score = "  Delete from Score where scid in (select sc.scid from Score sc\n"
                     + "  join ScoreType sct on sc.sctid = sct.sctid\n"
                     + "  join Subject su on su.subid = sct.subid\n"
@@ -103,25 +102,13 @@ public class ScoreDBContext extends DBContext<Student> {
             for (Score score : listScore) {
                 String sql_insert_att = "Insert into Score(score, sid, sctid) values(?, ?, ?)";
                 PreparedStatement stm_insert_att = connection.prepareStatement(sql_insert_att);
-                stm_insert_att.setInt(1, score.getScore());
+                stm_insert_att.setDouble(1, score.getScore());
                 stm_insert_att.setInt(2, score.getStudent().getId());
                 stm_insert_att.setInt(3, score.getScoreType().getSctid());
                 stm_insert_att.executeUpdate();
             }
-            connection.commit();
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(ScoreDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
     }

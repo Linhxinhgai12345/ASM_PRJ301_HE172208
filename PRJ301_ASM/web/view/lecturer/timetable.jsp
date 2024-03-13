@@ -23,7 +23,7 @@
 
             body{
                 padding: 20px;
-                background-color: rgb(240 208 165 / 56%);
+                background-color: rgb(233 233 223);
                 background-size: cover;
                 background-position: center;
             }

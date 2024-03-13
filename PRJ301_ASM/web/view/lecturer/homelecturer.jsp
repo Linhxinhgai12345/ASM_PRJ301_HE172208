@@ -25,6 +25,7 @@
             </div>
             <div class="nav-content">
                 <a href="lecturer/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
+                <a href="lecturer/presentreport">Present report</a>
                 <a href="lecturer/markreport">Report Mark</a>
             </div>
         </div>

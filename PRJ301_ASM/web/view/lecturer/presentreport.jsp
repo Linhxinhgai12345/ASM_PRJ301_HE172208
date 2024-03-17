@@ -11,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Present</title>
-    <link rel="stylesheet" href="viewpresent.css">
+    <title>Present Report</title>
+    <link rel="stylesheet" href="presentreport.css">
     <style>
         * {
     box-sizing: border-box;
@@ -29,7 +29,7 @@ body {
     max-width: 1200px;
     margin: 40px 40px;
     padding: 2rem;
-    background-color: #c8ced2;
+    background-color:#d9dfe4;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
     border-radius: 4px;
 }
@@ -110,7 +110,7 @@ table {
 
 th,
 td {
-    width: 5% 20% 15% 10% 15% 10% 15% 10%;
+   
     text-align: left;
     padding: 0.5rem;
     border-bottom: 1px solid #e0e0e0;
@@ -153,71 +153,53 @@ td {
         <table id="gradeReport">
             <thead>
                 <tr>
-                    <th>N0</th>				
-                    <th>DATE</th>
-                    <th>SLOT</th>
-                    <th>ROOM</th>
-                    <th>LECTURER</th>
-                    <th>GROUP NAME</th>
-                    <th>ATTEDANCE STATUS</th>
-                    <th>COMMENT</th>
+                    <th>ID</th>				
+                    <th>Name</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    
                   
                 </tr>
+                
                 <tr>
-                   <td>1</td>
-                   <td>monday 10/03/2024</td>
-                   <td>1_(7h30-9h50)</td>
-                   <td>BE101</td>
-                   <td>DungVT41</td>
-                   <td>de1223</td>
-                   <td>present</td>
-                   <td>aaaaa</td>
+                    <td>HE172208</td>
+                    <td>Nguyen Dinh Nguyen nghieng</td>
+                    <td>P</td>
+                    <td>A</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>A</td>
+                    <td>P</td>
+                    <td>A</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>A</td>
+                    <td>P</td>
+                    <td>A</td>
+                    <td>P</td>
+                    
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>monday 10/03/2024</td>
-                    <td>1_(7h30-9h50)</td>
-                    <td>BE101</td>
-                    <td>DungVT41</td>
-                    <td>de1223</td>
-                    <td>present</td>
-                    <td>aaaaa</td>
-                 </tr>
-                 <tr>
-                    <td>1</td>
-                    <td>monday 10/03/2024</td>
-                    <td>1_(7h30-9h50)</td>
-                    <td>BE101</td>
-                    <td>DungVT41</td>
-                    <td>de1223</td>
-                    <td>present</td>
-                    <td>aaaaa</td>
-                 </tr>
-                 <tr>
-                    <td>1</td>
-                    <td>monday 10/03/2024</td>
-                    <td>1_(7h30-9h50)</td>
-                    <td>BE101</td>
-                    <td>DungVT41</td>
-                    <td>de1223</td>
-                    <td>present</td>
-                    <td>aaaaa</td>
-                 </tr>
-                 <tr>
-                    <td>1</td>
-                    <td>monday 10/03/2024</td>
-                    <td>1_(7h30-9h50)</td>
-                    <td>BE101</td>
-                    <td>DungVT41</td>
-                    <td>de1223</td>
-                    <td>present</td>
-                    <td>aaaaa</td>
-                 </tr>
             </thead>
         </table>
-        <h4>ABSENT: 10% ABSENT SO FAR (2 ABSENT ON 20 TOTAL).</h4>
+        <h4>Thằng nào nghỉ quá 10% số buổi tao sẽ gửi mail cho mày</h4>
         
     </div>
 </body>
 
 </html>
+

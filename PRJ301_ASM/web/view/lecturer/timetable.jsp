@@ -368,11 +368,12 @@
             <div class="nav">
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
+                    <a href="../lecturer/presentreport">Present report</a>
                     <a href="../lecturer/markreport">Report Mark</a>
                 </div>
             </div>
             <div class="sign-out-btn">
-                <a href="../logout">Sign out</a>
+                <a href="/logout">Sign out</a>
             </div>
         </div>
         <div class="logo">
@@ -392,7 +393,7 @@ Little UK (LUK) thuộc tầng 5 tòa nhà Delta</pre>
         </div>
         <div class="select-month-option-find">
             <form action="timetable" method="GET">
-                <input type="hidden" value="1" name="id"/>
+                <input type="hidden" value="${sessionScope.lecturer.id}" name="id"/>
                 From: <input type="date" name="from" value="${requestScope.from}"/> -
                 <input type="date" name="to" value="${requestScope.to}"/>
                 <button> View </button>

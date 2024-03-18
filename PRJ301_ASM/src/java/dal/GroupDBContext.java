@@ -5,7 +5,9 @@
 package dal;
 
 import dal.DBContext;
+import entity.Attendence;
 import entity.Lecturer;
+import entity.Lession;
 import entity.Role;
 import entity.Student;
 import entity.StudentGroup;
@@ -73,6 +75,65 @@ public class GroupDBContext extends DBContext<Student> {
             Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return students;
+    }
+
+    public ArrayList<Lession> getAllLessionByGroupId(int groupid) {
+        ArrayList<Lession> lessions = new ArrayList<>();
+        try {
+            String sql = "select l.leid, l.isAttended, l.gid, l.date from Lession l\n"
+                    + "join StudentGroup sg on sg.gid = l.gid\n"
+                    + "where sg.gid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, groupid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                StudentGroup sg = new StudentGroup();
+                sg.setId(rs.getInt("gid"));
+                Lession l = new Lession();
+                l.setGroup(sg);
+                l.setId(rs.getInt("leid"));
+                l.setAttended(rs.getBoolean("isAttended"));
+                l.setDate(rs.getDate("date"));
+                lessions.add(l);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lessions;
+    }
+
+    public ArrayList<Attendence> getAllAttendenceByGroupId(int groupid) {
+        ArrayList<Attendence> attendences = new ArrayList<>();
+        try {
+            String sql = "select a.* from Attendence a\n"
+                    + "	join Lession l on  l.leid = a.leid\n"
+                    + "	where l.gid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, groupid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Student s = new Student();
+                s.setId(rs.getInt("sid"));
+                Lession l = new Lession();
+                l.setId(rs.getInt("leid"));
+                Attendence a = new Attendence();
+                a.setId(rs.getInt("aid"));
+                a.setLession(l);
+                a.setStudent(s);
+                a.setDescription(rs.getString("description"));
+                a.setPresent(rs.getBoolean("isPresent"));
+                a.setTime(rs.getDate("capturedtime"));
+                attendences.add(a);
+                
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return attendences;
     }
 
     public Lecturer getLecturerByUsername(String username) {

@@ -219,6 +219,7 @@
                     <button type="submit" id="submit">See Report</button>
                 </div>
             </form>
+            <!--<h3 style="color: green">${sessionScope.mess}</h3>-->
             <table id="gradeReport">
                 <thead>
                     <tr>
@@ -239,10 +240,18 @@
                         <tr>
                             <td>${student.id}</td>
                             <td>${student.name}</td>
-                            <td><button style="padding: 2px 5px">Send Email</button></td>
-                            <c:forEach items="${listLession}" var="les" >
-                                <c:forEach items="${listAttendence}" var="atten">
-                                    <c:if test="${atten.lession.id == les.id && atten.student.id == student.id}">
+                            <td style="width: 200px">
+                                <form action="../sendmail" method="post" style="width: 200px">
+                                    <input type="hidden" name="groupchoosen" value="${groupchoosen}"/>
+                                    <input type="hidden" name="toEmail" value="${student.email}"/>
+                                    <input type="hidden" name="subject" value="${sessionScope.account.username}(${sessionScope.account.displayname})"/>
+                                    <input type="text" name="message" style="width: 100px"/>
+                                    <input type="submit" style="padding: 2px 5px; width: 50px" value="Send">
+                                </form>
+                            </td>
+                                <c:forEach items="${listLession}" var="les" >
+                                    <c:forEach items="${listAttendence}" var="atten">
+                                        <c:if test="${atten.lession.id == les.id && atten.student.id == student.id}">
                                         <td>${atten.present ? 'P' : 'A'}</td>
                                     </c:if>
                                 </c:forEach>

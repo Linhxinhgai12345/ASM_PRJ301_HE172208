@@ -44,6 +44,7 @@ public class PresentReportController extends BaseRBACController {
         req.setAttribute("studentgroup", studentgroup);
         
         if(req.getParameter("groupchoosen") != null){
+            req.getSession().removeAttribute("mess");
             int groupchoosen = Integer.parseInt(req.getParameter("groupchoosen"));
             req.setAttribute("listStudent", db.getAllStudentByGroupId(groupchoosen));
             req.setAttribute("listLession", db.getAllLessionByGroupId(groupchoosen));

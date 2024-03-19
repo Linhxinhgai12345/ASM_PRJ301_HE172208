@@ -58,7 +58,7 @@ public class GroupDBContext extends DBContext<Student> {
     public ArrayList<Student> getAllStudentByGroupId(int lname) {
         ArrayList<Student> students = new ArrayList<>();
         try {
-            String sql = "select s.sid, s.sname from Student s\n"
+            String sql = "select s.sid, s.sname, s.email from Student s\n"
                     + "join Enrollment e on s.sid = e.sid\n"
                     + "join StudentGroup sg on sg.gid = e.gid\n"
                     + "where sg.gid = ?";
@@ -69,6 +69,7 @@ public class GroupDBContext extends DBContext<Student> {
                 Student student = new Student();
                 student.setId(rs.getInt("sid"));
                 student.setName(rs.getString("sname"));
+                student.setEmail(rs.getString("email"));
                 students.add(student);
             }
 

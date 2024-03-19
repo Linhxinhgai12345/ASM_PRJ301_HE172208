@@ -84,6 +84,10 @@
         <servlet-name>StudentTimeTableController</servlet-name>
         <servlet-class>controller.student.TimeTableController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendMailWithStudentEmail</servlet-name>
+        <servlet-class>SendMail.SendMailWithStudentEmail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RectController</servlet-name>
         <url-pattern>/rect</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>StudentTimeTableController</servlet-name>
         <url-pattern>/student/timetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendMailWithStudentEmail</servlet-name>
+        <url-pattern>/sendmail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

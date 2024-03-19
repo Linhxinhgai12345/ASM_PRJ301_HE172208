@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * 
+ *
  */
 public class LessionDBContext extends DBContext<Lession> {
 
@@ -104,7 +104,7 @@ public class LessionDBContext extends DBContext<Lession> {
         }
 
     }
-    
+
     public boolean isAttended(int leid) {
         boolean isAttended = false;
         try {
@@ -121,8 +121,7 @@ public class LessionDBContext extends DBContext<Lession> {
         return isAttended;
 
     }
-    
-    
+
     public ArrayList<Student> getStudentsByLession(int leid) {
         ArrayList<Student> students = new ArrayList<>();
         try {
@@ -186,7 +185,6 @@ public class LessionDBContext extends DBContext<Lession> {
         }
         return atts;
     }
-    
 
     public ArrayList<Lession> getBy(int lid, Date from, Date to) {
         ArrayList<Lession> lessions = new ArrayList<>();
@@ -237,6 +235,67 @@ public class LessionDBContext extends DBContext<Lession> {
 
                 l.setId(rs.getInt("lid"));
                 l.setName(rs.getString("lname"));
+                les.setLecturer(l);
+
+                lessions.add(les);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lessions;
+
+    }
+
+    public ArrayList<Lession> getStudentLessionByStudentID(int sid, Date from, Date to) {
+        ArrayList<Lession> lessions = new ArrayList<>();
+        try {
+            String sql = "SELECT\n"
+                    + "les.leid,les.isAttended,les.date,\n"
+                    + "g.gid,g.gname,su.subid,su.suname,\n"
+                    + "t.tid,t.tname,\n"
+                    + "r.rid,r.rname, les.lid\n"
+                    + "FROM Lession les INNER JOIN StudentGroup g ON les.gid = g.gid\n"
+                    + "INNER JOIN Subject su ON su.subid = g.subid\n"
+                    + "INNER JOIN TimeSlot t ON t.tid = les.tid\n"
+                    + "INNER JOIN Room r ON r.rid = les.rid\n"
+                    + "INNER JOIN Enrollment enrol on enrol.gid = g.gid\n"
+                    + "INNER JOIN Student st on st.sid = enrol.sid\n"
+                    + "WHERE st.sid = ? AND les.[date] >= ? and les.[date]<= ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, sid);
+            stm.setDate(2, from);
+            stm.setDate(3, to);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Lession les = new Lession();
+                StudentGroup g = new StudentGroup();
+                Subject s = new Subject();
+                TimeSlot slot = new TimeSlot();
+                Room r = new Room();
+                Lecturer l = new Lecturer();
+
+                les.setId(rs.getInt("leid"));
+                les.setAttended(rs.getBoolean("isAttended"));
+                les.setDate(rs.getDate("date"));
+
+                g.setId(rs.getInt("gid"));
+                g.setName(rs.getString("gname"));
+                s.setId(rs.getInt("subid"));
+                s.setName(rs.getString("suname"));
+                g.setSubject(s);
+                les.setGroup(g);
+
+                slot.setId(rs.getInt("tid"));
+                slot.setName(rs.getString("tname"));
+                les.setSlot(slot);
+
+                r.setId(rs.getInt("rid"));
+                r.setName(rs.getString("rname"));
+                les.setRoom(r);
+
+                l.setId(rs.getInt("lid"));
+
                 les.setLecturer(l);
 
                 lessions.add(les);

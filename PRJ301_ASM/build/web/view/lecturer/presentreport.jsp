@@ -204,7 +204,15 @@
                 <label for="course">Select a course:</label>
                 <select id="course" name="groupchoosen">
                     <c:forEach items="${studentgroup}" var="group">
-                        <option value="${group.id}">${group.getName()}-${group.subject.name}</option>
+                        <c:choose>
+                            <c:when test="${groupchoosen == group.id}">
+                                <option value="${group.id}" selected="">${group.getName()}-${group.subject.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${group.id}">${group.getName()}-${group.subject.name}</option>
+                            </c:otherwise>
+                        </c:choose>
+
                     </c:forEach>
                 </select> <br />
                 <div>
@@ -216,12 +224,14 @@
                     <tr>
                         <th>ID</th>				
                         <th>Name</th>
-                        <c:set var="counter" value="0" />
+                        <th>Alert</th>
+                            <c:set var="counter" value="0" />
                             <c:forEach items="${listLession}" var="l" >
-                            <c:set var="counter" value="${counter + 1}" />
-                        <th title="${l.date}">${counter}</th>
-                        </c:forEach>
+                                <c:set var="counter" value="${counter + 1}" />
+                            <th title="${l.date}">${counter}</th>
+                            </c:forEach>
                         <th>Total</th>
+
 
 
                     </tr>
@@ -229,6 +239,7 @@
                         <tr>
                             <td>${student.id}</td>
                             <td>${student.name}</td>
+                            <td><button style="padding: 2px 5px">Send Email</button></td>
                             <c:forEach items="${listLession}" var="les" >
                                 <c:forEach items="${listAttendence}" var="atten">
                                     <c:if test="${atten.lession.id == les.id && atten.student.id == student.id}">
@@ -236,58 +247,59 @@
                                     </c:if>
                                 </c:forEach>
                             </c:forEach>
-                                        <td>10%</td>
+                            <td>..%</td>
+
                         </tr>
 
                     </c:forEach>
-                        <tr>
-                            
-                        </tr>
+                    <tr>
+
+                    </tr>
                 </thead>
             </table>
             <h4></h4>
 
         </div>
-                            
+
         <script>
-    window.onload = function() {
-        // Get the table by its ID
-        var table = document.getElementById('gradeReport');
+            window.onload = function () {
+                // Get the table by its ID
+                var table = document.getElementById('gradeReport');
 
-        // Loop over the rows in the table
-        for (var i = 1, row; row = table.rows[i]; i++) {
-            // Start at the first attendance column index, which is 2 in this case
-            var countA = 0;
-            var totalColumns = 0;
+                // Loop over the rows in the table
+                for (var i = 1, row; row = table.rows[i]; i++) {
+                    // Start at the first attendance column index, which is 2 in this case
+                    var countA = 0;
+                    var totalColumns = 0;
 
-            // Loop over the cells in the current row
-            for (var j = 2, col; col = row.cells[j]; j++) {
-                // Count only the attendance columns, exclude the 'Total' column
-                if (j < row.cells.length - 1) {
-                    totalColumns++;
-                    if (col.textContent === 'A') {
-                        countA++;
+                    // Loop over the cells in the current row
+                    for (var j = 2, col; col = row.cells[j]; j++) {
+                        // Count only the attendance columns, exclude the 'Total' column
+                        if (j < row.cells.length - 1) {
+                            totalColumns++;
+                            if (col.textContent === 'A') {
+                                countA++;
+                            }
+                        }
+                    }
+
+                    // Calculate the percentage of 'A's
+                    var percentage = (countA / 20) * 100;
+
+                    // Update the 'Total' cell with the percentage and color code the cell
+                    var totalCell = row.cells[row.cells.length - 1];
+                    totalCell.textContent = percentage.toFixed(0) + '%';
+
+                    if (percentage > 20) {
+                        // Cells with more than 20% 'A's are red
+                        totalCell.style.color = 'red';            // Set text color to white for better readability
+                    } else {
+                        // Cells with 20% or less 'A's are green
+                        totalCell.style.color = 'green';            // Set text color to white for better readability
                     }
                 }
-            }
-
-            // Calculate the percentage of 'A's
-            var percentage = (countA / 20) * 100;
-
-            // Update the 'Total' cell with the percentage and color code the cell
-            var totalCell = row.cells[row.cells.length - 1];
-            totalCell.textContent = percentage.toFixed(0) + '%';
-
-            if (percentage > 20) {
-                    // Cells with more than 20% 'A's are red
-                totalCell.style.color = 'red';            // Set text color to white for better readability
-            } else {
-                 // Cells with 20% or less 'A's are green
-                totalCell.style.color = 'green';            // Set text color to white for better readability
-            }
-        }
-    };
-</script>
+            };
+        </script>
     </body>
 
 </html>

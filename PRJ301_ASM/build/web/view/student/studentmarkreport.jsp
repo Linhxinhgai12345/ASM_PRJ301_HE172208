@@ -1,19 +1,20 @@
 <%-- 
-    Document   : presentreport
-    Created on : Mar 13, 2024, 10:12:51 PM
+    Document   : studentmarkreport
+    Created on : Mar 19, 2024, 10:39:03 AM
     Author     : DEll
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Present Report</title>
-        <link rel="stylesheet" href="presentreport.css">
+        <title>Grade Report</title>
+        <link rel="stylesheet" href="viewmarkstudent.css">
         <style>
             * {
                 box-sizing: border-box;
@@ -30,7 +31,7 @@
                 max-width: 1200px;
                 margin: 40px 40px;
                 padding: 2rem;
-                background-color:#d9dfe4;
+                background-color: #c8ced2;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
                 border-radius: 4px;
             }
@@ -40,12 +41,11 @@
                 margin-bottom: 2rem;
                 color: #070606;
                 font-size: 40px;
-                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                background-color: rgba(62, 75, 178, 0.685);
-                color: rgb(11, 10, 10);
                 margin-top: 10px;
                 border-radius: 10px;
                 padding: 10px;
+                background-color: rgb(245 182 64);
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             }
 
             form {
@@ -57,15 +57,15 @@
                 font-weight: 600;
             }
 
-            form input {
+            form input{
                 width: 200px;
             }
 
-            form div {
+            form div{
                 width: 100%;
             }
 
-            form button {
+            form button{
                 float: right;
                 margin-top: 15px;
                 margin-right: 90px;
@@ -111,7 +111,7 @@
 
             th,
             td {
-
+                width: 25%;
                 text-align: left;
                 padding: 0.5rem;
                 border-bottom: 1px solid #e0e0e0;
@@ -181,11 +181,13 @@
     </head>
 
     <body>
+
         <div class="header">
             <div class="nav">
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
-                    <a href="../lecturer/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
+                    <a href="../student/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
+                    <a href="../student/presentreport">Present report</a>
                 </div>
             </div>
             <div class="sign-out-btn">
@@ -193,8 +195,8 @@
             </div>
         </div>
         <div class="container">
-            <h1>View Attendance</h1>
-            <form action="../lecturer/presentreport" method="get">
+            <h1>Grade Report</h1>
+            <form action="../student/markreport" method="get">
                 <label for="term">Select a term:</label>
                 <select id="term">
                     <option value="fall2023">Fall 2023</option>
@@ -202,105 +204,92 @@
                     <!-- Add more terms here -->
                 </select> <br />
                 <label for="course">Select a course:</label>
-                <select id="course" name="groupchoosen">
-                    <c:forEach items="${studentgroup}" var="group">
+                <select id="course" name="subjectchoosen">
+                    <c:forEach items="${listgroup}" var="group">
                         <c:choose>
-                            <c:when test="${groupchoosen == group.id}">
-                                <option value="${group.id}" selected="">${group.getName()}-${group.subject.name}</option>
+                            <c:when test="${subjectchoosen == group.subject.id}">
+                                <option value="${group.subject.id},${group.id}" selected="">
+                                    ${group.getName()}-${group.subject.name}
+                                </option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${group.id}">${group.getName()}-${group.subject.name}</option>
+                                <option value="${group.subject.id},${group.id}">${group.getName()}-${group.subject.name}</option>
                             </c:otherwise>
                         </c:choose>
 
                     </c:forEach>
                 </select> <br />
                 <div>
-                    <button type="submit" id="submit">See Report</button>
+                    <button type="submit" id="submit">View Mark</button>
                 </div>
             </form>
             <table id="gradeReport">
                 <thead>
                     <tr>
-                        <th>ID</th>				
-                        <th>Name</th>
-                        <th>Alert</th>
-                            <c:set var="counter" value="0" />
-                            <c:forEach items="${listLession}" var="l" >
-                                <c:set var="counter" value="${counter + 1}" />
-                            <th title="${l.date}">${counter}</th>
-                            </c:forEach>
-                        <th>Total</th>
-
-
-
+                        <th>Grade Item</th>
+                        <th>Weight</th>
+                        <th>Value</th>
+                        <th> Comment</th>
                     </tr>
-                    <c:forEach items="${listStudent}" var="student">
+                    <c:set var="totalWeightedScore" value="0"/>
+                    <c:set var="totalWeight" value="0"/>
+                    <c:forEach items="${listScoreType}" var="scoreType">
                         <tr>
-                            <td>${student.id}</td>
-                            <td>${student.name}</td>
-                            <td><button style="padding: 2px 5px">Send Email</button></td>
-                            <c:forEach items="${listLession}" var="les" >
-                                <c:forEach items="${listAttendence}" var="atten">
-                                    <c:if test="${atten.lession.id == les.id && atten.student.id == student.id}">
-                                        <td>${atten.present ? 'P' : 'A'}</td>
-                                    </c:if>
-                                </c:forEach>
+                            <td>${scoreType.sctname}</td>
+                            <td>${scoreType.sctpercent}</td>
+                            <c:set var="weight" value="${fn:replace(scoreType.sctpercent, '%', '') div 100}"/>
+                            <c:forEach items="${listScore}" var="score">
+                                <c:if test="${(score.scoreType.sctid == scoreType.sctid) and (score.student.id == sessionScope.student.id)}">
+                                    <c:set var="scoreofstudent" value="${score.score}"/>
+                                    <c:set var="weightedScore" value="${scoreofstudent * weight}"/>
+                                    <c:set var="totalWeightedScore" value="${totalWeightedScore + weightedScore}"/>
+                                    <c:set var="totalWeight" value="${totalWeight + weight}"/>
+                                </c:if>
                             </c:forEach>
-                            <td>..%</td>
-
+                            <td>${scoreofstudent == null ? 0 : scoreofstudent}</td>
+                            <td>No comment!</td>
                         </tr>
-
                     </c:forEach>
-                    <tr>
+                    <c:if test="${totalWeight > 0}">
+                        <c:set var="averange" value="${totalWeightedScore div totalWeight}"/>
+                    </c:if>
 
-                    </tr>
+
+
+
+
+
                 </thead>
+
+                <tbody>
+                    <!-- Grades will be inserted here -->
+                </tbody>
             </table>
-            <h4></h4>
+            <div>
 
-        </div>
+                <h4>AVERAGE: <c:if test="${totalWeight > 0}">${averange}</c:if></h4>
+                <h4 id="status">STATUS: <c:if test="${totalWeight > 0}"><span id="passFail">PASSED</span></c:if></h4>
 
-        <script>
-            window.onload = function () {
-                // Get the table by its ID
-                var table = document.getElementById('gradeReport');
 
-                // Loop over the rows in the table
-                for (var i = 1, row; row = table.rows[i]; i++) {
-                    // Start at the first attendance column index, which is 2 in this case
-                    var countA = 0;
-                    var totalColumns = 0;
+                </div>
+            </div>
+            <script>
+                window.onload = function () {
+                    var average = parseFloat("${averange}").toFixed(1); // Định dạng số thập phân
+                    var averageDisplay = document.querySelector('h4:nth-of-type(1)');
+                    averageDisplay.textContent = 'AVERAGE: ' + average; // Hiển thị giá trị đã định dạng
 
-                    // Loop over the cells in the current row
-                    for (var j = 2, col; col = row.cells[j]; j++) {
-                        // Count only the attendance columns, exclude the 'Total' column
-                        if (j < row.cells.length - 1) {
-                            totalColumns++;
-                            if (col.textContent === 'A') {
-                                countA++;
-                            }
-                        }
-                    }
-
-                    // Calculate the percentage of 'A's
-                    var percentage = (countA / 20) * 100;
-
-                    // Update the 'Total' cell with the percentage and color code the cell
-                    var totalCell = row.cells[row.cells.length - 1];
-                    totalCell.textContent = percentage.toFixed(0) + '%';
-
-                    if (percentage > 20) {
-                        // Cells with more than 20% 'A's are red
-                        totalCell.style.color = 'red';            // Set text color to white for better readability
+                    var statusSpan = document.getElementById("passFail");
+                    if (average < 5.0) {
+                        statusSpan.textContent = "NOT PASSED";
+                        statusSpan.style.color = "red";
                     } else {
-                        // Cells with 20% or less 'A's are green
-                        totalCell.style.color = 'green';            // Set text color to white for better readability
+                        statusSpan.textContent = "PASSED";
+                        statusSpan.style.color = "green";
                     }
-                }
-            };
+                };
+
         </script>
     </body>
 
 </html>
-

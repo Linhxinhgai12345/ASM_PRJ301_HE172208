@@ -48,6 +48,7 @@ public class PresentReportController extends BaseRBACController {
             req.setAttribute("listStudent", db.getAllStudentByGroupId(groupchoosen));
             req.setAttribute("listLession", db.getAllLessionByGroupId(groupchoosen));
             req.setAttribute("listAttendence", db.getAllAttendenceByGroupId(groupchoosen));
+            req.setAttribute("groupchoosen", groupchoosen);
         }
         
         req.getRequestDispatcher("../view/lecturer/presentreport.jsp").forward(req, resp);

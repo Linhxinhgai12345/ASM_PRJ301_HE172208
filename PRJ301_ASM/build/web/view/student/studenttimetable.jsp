@@ -368,8 +368,8 @@
             <div class="nav">
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
-                    <a href="../lecturer/presentreport">Present report</a>
-                    <a href="../lecturer/markreport">Report Mark</a>
+                    <a href="../student/presentreport">Present report</a>
+                    <a href="../student/markreport">Report Mark</a>
                 </div>
             </div>
             <div class="sign-out-btn">
@@ -380,7 +380,7 @@
             <img src="img/Logo.jpg" alt="">
         </div>
         <div class="lecturer">
-            <h1>Lecturer name: ${sessionScope.account.displayname}</h1>
+            <h1>Student name: ${sessionScope.account.displayname}</h1>
         </div>
         <div class="header-para">
             <h4>Chu thich : </h4>
@@ -393,7 +393,7 @@ Little UK (LUK) thuộc tầng 5 tòa nhà Delta</pre>
         </div>
         <div class="select-month-option-find">
             <form action="timetable" method="GET">
-                <input type="hidden" value="${sessionScope.lecturer.id}" name="id"/>
+                <input type="hidden" value="${sessionScope.student.id}" name="id"/>
                 From: <input type="date" name="from" value="${requestScope.from}"/> -
                 <input type="date" name="to" value="${requestScope.to}"/>
                 <button> View </button>
@@ -435,10 +435,20 @@ Little UK (LUK) thuộc tầng 5 tòa nhà Delta</pre>
                                                 <p>BE301</p>
                                                 <p>${les.group.name} - ${les.group.subject.name} 
                                                     <%--<c:if test="${sessionScope.lecturer.name != null}">--%>
-                                                    (<a href="att?id=${les.id}&date=${d}&slot=${slot.name}&subject=${les.group.subject.name}&group=${les.group.name}&room=${les.room.name}">
-                                                        <c:if test="${les.attended}">Edit</c:if>
-                                                        <c:if test="${!les.attended}">Take</c:if>
-                                                        </a>)
+                                                    (
+                                                    <c:if test="${les.attended}">
+                                                        <c:forEach items="${listAttendences}" var="att">
+                                                            <c:if test="${att.lession.id == les.id and att.present}">
+                                                                <span style="color: green">Present</span>
+                                                            </c:if>
+                                                            <c:if test="${att.lession.id == les.id and !att.present}">
+                                                                <span style="color: red">Absent</span>
+                                                            </c:if>
+                                                        </c:forEach>
+
+                                                    </c:if>
+                                                    <c:if test="${!les.attended }"><span style="color:red">Not Yet</span></c:if>
+                                                        )
                                                     <%--</c:if>--%>
                                                 </p>
                                             </div>                                            

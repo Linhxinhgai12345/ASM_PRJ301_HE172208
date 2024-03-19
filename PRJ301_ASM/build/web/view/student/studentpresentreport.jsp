@@ -185,7 +185,8 @@
             <div class="nav">
                 <div class="nav-content">
                     <a href="../homelecturer">Home</a>
-                    <a href="../lecturer/timetable?id=${sessionScope.lecturer.id}">Timetable</a>
+                    <a href="../student/timetable?id=${sessionScope.student.id}">Timetable</a>
+                    <a href="../student/markreport">Report Mark</a>
                 </div>
             </div>
             <div class="sign-out-btn">
@@ -193,8 +194,8 @@
             </div>
         </div>
         <div class="container">
-            <h1>View Attendance</h1>
-            <form action="../lecturer/presentreport" method="get">
+            <h1>Present Report</h1>
+            <form action="../student/presentreport" method="get">
                 <label for="term">Select a term:</label>
                 <select id="term">
                     <option value="fall2023">Fall 2023</option>
@@ -203,10 +204,12 @@
                 </select> <br />
                 <label for="course">Select a course:</label>
                 <select id="course" name="groupchoosen">
-                    <c:forEach items="${studentgroup}" var="group">
+                    <c:forEach items="${listgroup}" var="group">
                         <c:choose>
-                            <c:when test="${groupchoosen == group.id}">
-                                <option value="${group.id}" selected="">${group.getName()}-${group.subject.name}</option>
+                            <c:when test="${groupchoosen == group.subject.id}">
+                                <option value="${group.id}" selected="">
+                                    ${group.getName()}-${group.subject.name}
+                                </option>
                             </c:when>
                             <c:otherwise>
                                 <option value="${group.id}">${group.getName()}-${group.subject.name}</option>
@@ -222,84 +225,93 @@
             <table id="gradeReport">
                 <thead>
                     <tr>
-                        <th>ID</th>				
-                        <th>Name</th>
-                        <th>Alert</th>
-                            <c:set var="counter" value="0" />
-                            <c:forEach items="${listLession}" var="l" >
-                                <c:set var="counter" value="${counter + 1}" />
-                            <th title="${l.date}">${counter}</th>
-                            </c:forEach>
-                        <th>Total</th>
+                        <th>SLOT</th>				
+                        <th>DATE</th>
+                        <th>ROOM</th>
+                        <th>LECTURER</th>
+                        <th>Status</th>
 
-
-
-                    </tr>
-                    <c:forEach items="${listStudent}" var="student">
-                        <tr>
-                            <td>${student.id}</td>
-                            <td>${student.name}</td>
-                            <td><button style="padding: 2px 5px">Send Email</button></td>
-                            <c:forEach items="${listLession}" var="les" >
-                                <c:forEach items="${listAttendence}" var="atten">
-                                    <c:if test="${atten.lession.id == les.id && atten.student.id == student.id}">
-                                        <td>${atten.present ? 'P' : 'A'}</td>
-                                    </c:if>
-                                </c:forEach>
-                            </c:forEach>
-                            <td>..%</td>
-
-                        </tr>
-
-                    </c:forEach>
-                    <tr>
 
                     </tr>
                 </thead>
+                <tbody>
+                    <c:set var="counter" value="0" />
+                    <c:forEach items="${listLession}" var="lession" >
+                        <tr>
+                            <td><c:set var="counter" value="${counter + 1}"/>${counter}</td>
+                            <td>${lession.date}</td>
+                            <td>${lession.room.name}</td>
+                            <td>${lession.lecturer.name}</td>
+                            <c:forEach items="${listAttendence}" var="atten">
+                                <c:if test="${atten.lession.id == lession.id && atten.student.id == sessionScope.student.id}">
+                                    <c:choose>
+                                        <c:when test="${atten.present}">
+                                            <td style="color: green">Present</td>
+                                        </c:when>
+                                        <c:when test="${!atten.present}">
+                                            <td style="color: red">Absent</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>Not Yet</td>
+                                        </c:otherwise>
+                                    </c:choose>    
+
+                                </c:if>
+                            </c:forEach>
+                            <td></td>
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
             <h4></h4>
 
         </div>
 
         <script>
-            window.onload = function () {
-                // Get the table by its ID
-                var table = document.getElementById('gradeReport');
+            window.addEventListener('DOMContentLoaded', (event) => {
+                calculateAttendancePercentage();
+            });
 
-                // Loop over the rows in the table
-                for (var i = 1, row; row = table.rows[i]; i++) {
-                    // Start at the first attendance column index, which is 2 in this case
-                    var countA = 0;
-                    var totalColumns = 0;
+            function calculateAttendancePercentage() {
+                var absentCount = 0;
+                var totalSlots = 20; // Tổng số buổi là 20
 
-                    // Loop over the cells in the current row
-                    for (var j = 2, col; col = row.cells[j]; j++) {
-                        // Count only the attendance columns, exclude the 'Total' column
-                        if (j < row.cells.length - 1) {
-                            totalColumns++;
-                            if (col.textContent === 'A') {
-                                countA++;
-                            }
+                // Lặp qua mỗi dòng trong bảng
+                var tableRows = document.querySelectorAll('#gradeReport tbody tr');
+                tableRows.forEach(function (row) {
+                    // Lấy giá trị của cột "Status"
+                    var statusCell = row.querySelector('td:nth-child(5)');
+                    if (statusCell) {
+                        var status = statusCell.textContent.trim();
+                        if (status === 'Absent') {
+                            absentCount++;
                         }
                     }
+                });
 
-                    // Calculate the percentage of 'A's
-                    var percentage = (countA / 20) * 100;
-
-                    // Update the 'Total' cell with the percentage and color code the cell
-                    var totalCell = row.cells[row.cells.length - 1];
-                    totalCell.textContent = percentage.toFixed(0) + '%';
-
-                    if (percentage > 20) {
-                        // Cells with more than 20% 'A's are red
-                        totalCell.style.color = 'red';            // Set text color to white for better readability
+                // Tính toán tỷ lệ phần trăm vắng mặt
+                var absentPercentage = (absentCount / totalSlots) * 100;
+                var totalCell = document.querySelector('#gradeReport tbody tr:last-child td:last-child');
+                if (totalCell) {
+                    totalCell.textContent = '' + absentPercentage.toFixed(2) + '%';
+                    // Đổi màu nền dựa trên tỷ lệ phần trăm vắng mặt
+                    if (absentPercentage > 20) {
+                        totalCell.style.color = 'red'; 
                     } else {
-                        // Cells with 20% or less 'A's are green
-                        totalCell.style.color = 'green';            // Set text color to white for better readability
+                        totalCell.style.color = 'green'; 
                     }
                 }
-            };
+            }
+
         </script>
+
     </body>
 
 </html>

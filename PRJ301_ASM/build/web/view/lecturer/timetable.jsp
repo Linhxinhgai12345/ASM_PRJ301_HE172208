@@ -373,7 +373,7 @@
                 </div>
             </div>
             <div class="sign-out-btn">
-                <a href="/logout">Sign out</a>
+                <a href="../logout">Sign out</a>
             </div>
         </div>
         <div class="logo">

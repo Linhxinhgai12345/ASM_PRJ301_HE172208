@@ -72,6 +72,18 @@
         <servlet-name>PresentReportController</servlet-name>
         <servlet-class>controller.lecturer.PresentReportController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StudentMarkReportController</servlet-name>
+        <servlet-class>controller.student.MarkReportController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StudentPresentReportController</servlet-name>
+        <servlet-class>controller.student.PresentReportController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StudentTimeTableController</servlet-name>
+        <servlet-class>controller.student.TimeTableController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RectController</servlet-name>
         <url-pattern>/rect</url-pattern>
@@ -135,6 +147,18 @@
     <servlet-mapping>
         <servlet-name>PresentReportController</servlet-name>
         <url-pattern>/lecturer/presentreport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StudentMarkReportController</servlet-name>
+        <url-pattern>/student/markreport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StudentPresentReportController</servlet-name>
+        <url-pattern>/student/presentreport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StudentTimeTableController</servlet-name>
+        <url-pattern>/student/timetable</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

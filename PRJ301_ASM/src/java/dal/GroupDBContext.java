@@ -9,6 +9,7 @@ import entity.Attendence;
 import entity.Lecturer;
 import entity.Lession;
 import entity.Role;
+import entity.Room;
 import entity.Student;
 import entity.StudentGroup;
 import entity.Subject;
@@ -80,20 +81,32 @@ public class GroupDBContext extends DBContext<Student> {
     public ArrayList<Lession> getAllLessionByGroupId(int groupid) {
         ArrayList<Lession> lessions = new ArrayList<>();
         try {
-            String sql = "select l.leid, l.isAttended, l.gid, l.date from Lession l\n"
-                    + "join StudentGroup sg on sg.gid = l.gid\n"
-                    + "where sg.gid = ?";
+            String sql = "select l.leid, l.isAttended, l.gid, l.date, l.rid, r.rname, sg.gname, lec.lid, lec.lname from Lession l\n"
+                    + "                    join StudentGroup sg on sg.gid = l.gid\n"
+                    + "                    join Room r on r.rid = l.rid\n"
+                    + "                    join Lecturer lec on lec.lid = l.lid\n"
+                    + "                    where sg.gid = ?\n"
+                    + "                    order by l.date asc";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, groupid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
+                Room r = new Room();
+                r.setId(rs.getInt("rid"));
+                r.setName(rs.getString("rname"));
+                Lecturer lec = new Lecturer();
+                lec.setId(rs.getInt("lid"));
+                lec.setName(rs.getString("lname"));
                 StudentGroup sg = new StudentGroup();
                 sg.setId(rs.getInt("gid"));
+                sg.setName(rs.getString("gname"));
                 Lession l = new Lession();
                 l.setGroup(sg);
                 l.setId(rs.getInt("leid"));
                 l.setAttended(rs.getBoolean("isAttended"));
                 l.setDate(rs.getDate("date"));
+                l.setRoom(r);
+                l.setLecturer(lec);
                 lessions.add(l);
 
             }
@@ -126,7 +139,39 @@ public class GroupDBContext extends DBContext<Student> {
                 a.setPresent(rs.getBoolean("isPresent"));
                 a.setTime(rs.getDate("capturedtime"));
                 attendences.add(a);
-                
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return attendences;
+    }
+
+    public ArrayList<Attendence> getAllAttendenceByStudentId(int student) {
+        ArrayList<Attendence> attendences = new ArrayList<>();
+        try {
+            String sql = "select att.*, st.sname from Attendence att\n"
+                    + "join Student st on st.sid = att.sid\n"
+                    + "join Lession l on l.leid = att.leid\n"
+                    + "where st.sid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, student);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Student s = new Student();
+                s.setId(rs.getInt("sid"));
+                s.setName(rs.getString("sname"));
+                Lession l = new Lession();
+                l.setId(rs.getInt("leid"));
+                Attendence a = new Attendence();
+                a.setId(rs.getInt("aid"));
+                a.setLession(l);
+                a.setStudent(s);
+                a.setDescription(rs.getString("description"));
+                a.setPresent(rs.getBoolean("isPresent"));
+                a.setTime(rs.getDate("capturedtime"));
+                attendences.add(a);
 
             }
 
@@ -152,6 +197,33 @@ public class GroupDBContext extends DBContext<Student> {
             Logger.getLogger(RoleDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lecturer;
+    }
+
+    public ArrayList<StudentGroup> getAllStudentGroupByStudentId(int studentId) {
+        ArrayList<StudentGroup> listGroup = new ArrayList<>();
+        try {
+            String sql = "select sg.*, s.suname from StudentGroup sg\n"
+                    + "join Enrollment e on e.gid = sg.gid\n"
+                    + "join Subject s on s.subid = sg.subid\n"
+                    + "where e.sid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, studentId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Subject sb = new Subject();
+                sb.setId(rs.getInt("subid"));
+                sb.setName(rs.getString("suname"));
+                StudentGroup sg = new StudentGroup();
+                sg.setId(rs.getInt("gid"));
+                sg.setName(rs.getString("gname"));
+                sg.setSubject(sb);
+                listGroup.add(sg);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listGroup;
     }
 
     @Override
